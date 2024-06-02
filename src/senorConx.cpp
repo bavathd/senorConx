@@ -50,7 +50,7 @@ void senorConx::initialize(void* (*func) ()) {
         }
     }
     template <>
-    void senorConx::setPayload<int>(const char* name, const int& value, uint16_t index)
+    void senorConx::setPayload<unsigned int>(const char* name, const unsigned int& value, uint16_t index)
     {
         sensorData[index].name = name;
         sensorData[index].value = String(value);
@@ -58,6 +58,8 @@ void senorConx::initialize(void* (*func) ()) {
             maxindex = index;
         }
     }
+
+
     template <>
     void senorConx::setPayload<float>(const char* name, const float& value, uint16_t index)
     {
@@ -67,6 +69,17 @@ void senorConx::initialize(void* (*func) ()) {
             maxindex = index;
         }
     }
+
+    template <>
+    void senorConx::setPayload<int>(const char* name, const int& value, uint16_t index)
+    {
+        sensorData[index].name = name;
+        sensorData[index].value = String(value);
+        if (index > maxindex) {
+            maxindex = index;
+        }
+    }
+
     template <typename T>
     String senorConx::toString(const T& value) {
         return String(value);
