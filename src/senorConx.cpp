@@ -258,7 +258,7 @@ void senorConx::wifiStart() {
             u8g2.drawStr(3, 15, "wifi Failed to connect");
             u8g2.sendBuffer();
         }
-        Serial.println("wifi connected");
+        Serial.println("wifi not connected");
         while(1);
     }
     wifi = true;
