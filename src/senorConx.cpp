@@ -26,9 +26,9 @@ senorConx::senorConx(const char* name) {
 void senorConx::initialize(void* (*func) ()) {
 
     Wire.begin(I2C_SDA1, I2C_SCL1);
-    activate_I2C_GPIO_a();
+  
     func();
-    activate_I2C_GPIO_b();
+
     if(display) displayStart();
     if(wifi) wifiStart();
    
@@ -105,9 +105,9 @@ void senorConx::initialize(void* (*func) ()) {
 
 void senorConx::looper(void*(*func)())
 {
-    activate_I2C_GPIO_a();
+  
     func();
-    activate_I2C_GPIO_b();
+
     send();
 }
 
@@ -350,17 +350,7 @@ bool senorConx::sendData(const char* variables, String values)
         
    
 }
-void senorConx::activate_I2C_GPIO_a() {
-  i2c_set_pin(0, I2C_SDA1,I2C_SCL1, GPIO_PULLUP_ENABLE,GPIO_PULLUP_ENABLE,I2C_MODE_MASTER);
-  esp_rom_gpio_connect_out_signal(I2C_SCL2, SIG_GPIO_OUT_IDX, false, false);
-  esp_rom_gpio_connect_out_signal(I2C_SDA2, SIG_GPIO_OUT_IDX, false, false);
-}
 
-void senorConx::activate_I2C_GPIO_b() {
-  i2c_set_pin(0, I2C_SDA2,I2C_SCL2, GPIO_PULLUP_ENABLE,GPIO_PULLUP_ENABLE,I2C_MODE_MASTER);
-  esp_rom_gpio_connect_out_signal(I2C_SCL1, SIG_GPIO_OUT_IDX, false, false);
-  esp_rom_gpio_connect_out_signal(I2C_SDA1, SIG_GPIO_OUT_IDX, false, false);
-}
 
 senorConx::~senorConx() {
     client.stop();

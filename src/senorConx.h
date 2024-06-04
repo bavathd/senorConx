@@ -5,10 +5,7 @@
 #include<driver/i2c.h>
 #include<esp_rom_gpio.h>
 
-#define I2C_SDA1 D4 
-#define I2C_SCL1 D5
-#define I2C_SDA2 D9 
-#define I2C_SCL2 D10
+
 
 
 using namespace std;
@@ -31,8 +28,7 @@ public:
     void looper(void*(func)());
   
 private:
-    void activate_I2C_GPIO_a();
-    void activate_I2C_GPIO_b();
+
     void displayStart();
     void wifiStart();
     template <typename T>
