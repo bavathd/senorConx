@@ -2,8 +2,7 @@
 #define __SENORCONX_H_
 
 #include<Arduino.h>
-#include<driver/i2c.h>
-#include<esp_rom_gpio.h>
+
 
 
 
