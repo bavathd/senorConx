@@ -145,6 +145,7 @@ void senorConx::send()
             Serial.println(data[0]);
             Serial.println(data[1]);
         } 
+        
         if(wifi) 
         {
             bool sendCheck1 = sendData(sensorData[n].name, sensorData[n].value);
