@@ -24,8 +24,6 @@ senorConx::senorConx(const char* name) {
 }
 
 void senorConx::initialize(void* (*func) ()) {
-
-    Wire.begin(I2C_SDA1, I2C_SCL1);
   
     func();
 
