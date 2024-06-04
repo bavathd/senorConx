@@ -1,4 +1,5 @@
 #include"senorConx.h"
+#include <Wire.h>
 #include <U8g2lib.h>
 #include<WiFi.h>
 #include <HTTPClient.h>
@@ -23,6 +24,8 @@ senorConx::senorConx(const char* name) {
 }
 
 void senorConx::initialize(void* (*func) ()) {
+
+    Wire.begin(I2C_SDA1, I2C_SCL1);
     activate_I2C_GPIO_a();
     func();
     activate_I2C_GPIO_b();
@@ -110,7 +113,7 @@ void senorConx::looper(void*(*func)())
 
 void senorConx::send()
 {   uint16_t n = 0;
-
+    
     while(n <= maxindex)
     {
         String data[2];
@@ -148,13 +151,15 @@ void senorConx::send()
             n++;
 
             if(n >= maxindex){
+                
                 if(sendCheck1) {
-                    u8g2.clearBuffer();         // clear the internal memory
-                    u8g2.setFont(u8g2_font_ncenB10_tr);
+                            // clear the internal memory
+                   
                     if(display)
                     {
-                        
-                        u8g2.drawStr(0,10,"Data sent ");
+                        u8g2.clearBuffer(); 
+                        u8g2.setFont(u8g2_font_ncenB10_tr);
+                        u8g2.drawStr(0,25,"Data sent ");
                         Serial.println("Data sent ");
                         u8g2.sendBuffer();	           
                         
@@ -168,7 +173,9 @@ void senorConx::send()
                 else {
                     if(display)
                     {
-                        u8g2.drawStr(0,10,"Data Failed");
+                        u8g2.clearBuffer(); 
+                        u8g2.setFont(u8g2_font_ncenB10_tr);
+                        u8g2.drawStr(0,25,"Data Failed");
                         Serial.println("Data Failed");
                         u8g2.sendBuffer();	           
                         
@@ -191,7 +198,9 @@ void senorConx::send()
             if(sendCheck1 && sendCheck2) {
                 if(display)
                 {
-                    u8g2.drawStr(0,10,"Data sent ");
+                    u8g2.clearBuffer();         // clear the internal memory
+                    u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
+                    u8g2.drawStr(0,25,"Data sent ");
                     Serial.println("Data sent ");
                     u8g2.sendBuffer();	           
                     
@@ -204,8 +213,9 @@ void senorConx::send()
             }
             else {
                 if(display)
-                {
-                    u8g2.drawStr(0,10,"Data Failed");
+                {   u8g2.clearBuffer();         
+                    u8g2.setFont(u8g2_font_ncenB10_tr);
+                    u8g2.drawStr(0,25,"Data Failed");
                     Serial.println("Data Failed");
                     u8g2.sendBuffer();	           
                     
@@ -228,7 +238,7 @@ void senorConx::send()
 
 
 void senorConx::displayStart()
-{
+{   u8g2.setBusClock(100000);
     if(!u8g2.begin())
     {
         Serial.println("Display Failed");
