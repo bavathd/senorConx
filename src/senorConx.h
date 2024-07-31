@@ -2,7 +2,14 @@
 #define __SENORCONX_H_
 
 #include<Arduino.h>
-
+#include <Wire.h>
+#include <U8g2lib.h>
+#include<WiFi.h>
+#include <HTTPClient.h>
+#include "FS.h"
+#include "SD.h"
+#include <SPI.h>
+#include <RTClib.h>
 
 
 
@@ -30,6 +37,14 @@ private:
 
     void displayStart();
     void wifiStart();
+
+
+    void readFile(fs::FS &fs, const char * path);
+    void writeFile(fs::FS &fs, const char * path, const char * message);
+    void appendFile(fs::FS &fs, const char * path, const char * message);
+
+    String readTime();
+    void setTime(int day, int month, int year, int H, int M, int S);
     template <typename T>
     String toString(const T& value);
     String toString(const char* value);
@@ -40,6 +55,6 @@ private:
     void send();
     bool sendData(const char* variables, String values);
     int keyindex = 0;
-    char* tagoServer = "api.tago.io";
+    const char* tagoServer = "api.tago.io";
 };
 #endif
