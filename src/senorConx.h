@@ -31,6 +31,7 @@ public:
     void initialize(void* (func) ());
     template <typename T>
     void setPayload(const char* name, const T& value, uint16_t index); 
+    void setTime(int day, int month, int year, int H, int M, int S);
     void looper(void*(func)());
   
 private:
@@ -44,7 +45,7 @@ private:
     void appendFile(fs::FS &fs, const char * path, const char * message);
 
     String readTime();
-    void setTime(int day, int month, int year, int H, int M, int S);
+    
     template <typename T>
     String toString(const T& value);
     String toString(const char* value);
