@@ -6,10 +6,10 @@
 #include <U8g2lib.h>
 #include<WiFi.h>
 #include <HTTPClient.h>
-#include "FS.h"
-#include "SD.h"
-#include <SPI.h>
-#include <RTClib.h>
+// #include "FS.h"
+// #include "SD.h"
+// #include <SPI.h>
+// #include <RTClib.h>
 
 
 
@@ -39,12 +39,14 @@ private:
     void wifiStart();
 
 
-    void readFile(fs::FS &fs, const char * path);
-    void writeFile(fs::FS &fs, const char * path, const char * message);
-    void appendFile(fs::FS &fs, const char * path, const char * message);
+    // void readFile(fs::FS &fs, const char * path);
+    // void writeFile(fs::FS &fs, const char * path, const char * message);
+    // void appendFile(fs::FS &fs, const char * path, const char * message);
 
-    String readTime();
-    void setTime(int day, int month, int year, int H, int M, int S);
+    // String readTime();
+    // void setTime(int day, int month, int year, int H, int M, int S);
+
+
     template <typename T>
     String toString(const T& value);
     String toString(const char* value);

@@ -3,10 +3,10 @@
 #include <U8g2lib.h>
 #include<WiFi.h>
 #include <HTTPClient.h>
-#include "FS.h"
-#include "SD.h"
-#include <SPI.h>
-#include <RTClib.h>
+// #include "FS.h"
+// #include "SD.h"
+// #include <SPI.h>
+// #include <RTClib.h>
 
 
 WiFiClient client;
@@ -38,35 +38,35 @@ void senorConx::initialize(void* (*func) ()) {
 
     if(display) displayStart();
     if(wifi) wifiStart();
-    if (! rtc.begin()) {
+//     if (! rtc.begin()) {
 
-    Serial.println("Couldn't find RTC");
-    u8g2.clearBuffer();         // clear the internal memory
-    u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
-    u8g2.drawStr(3, 15, "RTC Failed");
-    u8g2.sendBuffer();
-    delay(1000);
-    Serial.flush();
-    while (1) delay(10);
-  }
+//     Serial.println("Couldn't find RTC");
+//     u8g2.clearBuffer();         // clear the internal memory
+//     u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
+//     u8g2.drawStr(3, 15, "RTC Failed");
+//     u8g2.sendBuffer();
+//     delay(1000);
+//     Serial.flush();
+//     while (1) delay(10);
+//   }
 
-    if(!SD.begin(D2)){
-        Serial.println("Card Mount Failed");
-        u8g2.clearBuffer();         // clear the internal memory
-        u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
-        u8g2.drawStr(3, 15, "SD Failed");
-        u8g2.sendBuffer();
-        delay(1000);
-        return;
-    }
+//     if(!SD.begin(D2)){
+//         Serial.println("Card Mount Failed");
+//         u8g2.clearBuffer();         // clear the internal memory
+//         u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
+//         u8g2.drawStr(3, 15, "SD Failed");
+//         u8g2.sendBuffer();
+//         delay(1000);
+//         return;
+//     }
 
    
     
 }
 
-void senorConx::setTime(int day, int month, int year, int H, int M, int S) {
-    rtc.adjust(DateTime(year, month, day, H, M, S));
-}
+// void senorConx::setTime(int day, int month, int year, int H, int M, int S) {
+//     rtc.adjust(DateTime(year, month, day, H, M, S));
+// }
 
 
   template <typename T>
@@ -146,9 +146,9 @@ void senorConx::looper(void*(*func)())
 
 void senorConx::send()
 {   uint16_t n = 0;
-    saveData = "";
-    String time = readTime();
-    saveData += time;
+    // saveData = "";
+    // String time = readTime();
+    // saveData += time;
     while(n <= maxindex)
     {
         String data[2];
@@ -160,14 +160,14 @@ void senorConx::send()
             }
             data[i] = String(sensorData[n+i].name) + ": " + sensorData[n+i].value; 
         }
-        saveData = ","+ data[0] + "," + data[1];
-        appendFile(SD,"/datalog.txt", saveData.c_str());
+        // saveData = ","+ data[0] + "," + data[1];
+        // appendFile(SD,"/datalog.txt", saveData.c_str());
         if(display)
         {
             
             u8g2.clearBuffer();         // clear the internal memory
             u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
-            u8g2.drawStr(4,10,time.c_str());
+            // u8g2.drawStr(4,10,time.c_str());
             u8g2.drawStr(0,35,data[0].c_str());
             u8g2.drawStr(0,50,data[1].c_str());
             Serial.println(data[0]);
@@ -398,83 +398,83 @@ senorConx::~senorConx() {
     Serial.flush();
 }
 
-void senorConx::readFile(fs::FS &fs, const char * path){
-    Serial.printf("Reading file: %s\n", path);
+// void senorConx::readFile(fs::FS &fs, const char * path){
+//     Serial.printf("Reading file: %s\n", path);
 
-    File file = fs.open(path);
-    if(!file){
-        Serial.println("Failed to open file for reading");
-        return;
-    }
+//     File file = fs.open(path);
+//     if(!file){
+//         Serial.println("Failed to open file for reading");
+//         return;
+//     }
 
-    Serial.print("Read from file: ");
-    while(file.available()){
-        Serial.write(file.read());
-    }
-    file.close();
-}
+//     Serial.print("Read from file: ");
+//     while(file.available()){
+//         Serial.write(file.read());
+//     }
+//     file.close();
+// }
 
-void senorConx::writeFile(fs::FS &fs, const char * path, const char * message){
-    Serial.printf("Writing file: %s\n", path);
+// void senorConx::writeFile(fs::FS &fs, const char * path, const char * message){
+//     Serial.printf("Writing file: %s\n", path);
 
-    File file = fs.open(path, FILE_WRITE);
-    if(!file){
-        Serial.println("Failed to open file for writing");
-        return;
-    }
-    if(file.print(message)){
-        Serial.println("File written");
-        u8g2.clearBuffer();         // clear the internal memory
-        u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
-        u8g2.drawStr(3, 15, "sd saved");
-        u8g2.sendBuffer();
-    } else {
-        Serial.println("Write failed");
-    }
-    file.close();
-}
+//     File file = fs.open(path, FILE_WRITE);
+//     if(!file){
+//         Serial.println("Failed to open file for writing");
+//         return;
+//     }
+//     if(file.print(message)){
+//         Serial.println("File written");
+//         u8g2.clearBuffer();         // clear the internal memory
+//         u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
+//         u8g2.drawStr(3, 15, "sd saved");
+//         u8g2.sendBuffer();
+//     } else {
+//         Serial.println("Write failed");
+//     }
+//     file.close();
+// }
 
-void senorConx::appendFile(fs::FS &fs, const char * path, const char * message){
-    Serial.printf("Appending to file: %s\n", path);
+// void senorConx::appendFile(fs::FS &fs, const char * path, const char * message){
+//     Serial.printf("Appending to file: %s\n", path);
 
-    File file = fs.open(path, FILE_APPEND);
-    if(!file){
-        Serial.println("Failed to open file for appending");
-        return;
-    }
-    if(file.print(message)){
-        Serial.println("Message appended");
-        u8g2.clearBuffer();         // clear the internal memory
-        u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
-        u8g2.drawStr(3, 15, "sd saved");
-        u8g2.sendBuffer();
-        delay(250);
-    } else {
-        Serial.println("Append failed");
-        u8g2.clearBuffer();         // clear the internal memory
-        u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
-        u8g2.drawStr(3, 15, "sd Failed");
-        u8g2.sendBuffer();
-        delay(1000);
-    }
-    file.close();
-}
+//     File file = fs.open(path, FILE_APPEND);
+//     if(!file){
+//         Serial.println("Failed to open file for appending");
+//         return;
+//     }
+//     if(file.print(message)){
+//         Serial.println("Message appended");
+//         u8g2.clearBuffer();         // clear the internal memory
+//         u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
+//         u8g2.drawStr(3, 15, "sd saved");
+//         u8g2.sendBuffer();
+//         delay(250);
+//     } else {
+//         Serial.println("Append failed");
+//         u8g2.clearBuffer();         // clear the internal memory
+//         u8g2.setFont(u8g2_font_ncenB10_tr); // choose a suitable font  
+//         u8g2.drawStr(3, 15, "sd Failed");
+//         u8g2.sendBuffer();
+//         delay(1000);
+//     }
+//     file.close();
+// }
 
-String senorConx::readTime()
-{
-DateTime now = rtc.now();
-Serial.print(now.year(), DEC);
-Serial.print('/');
-Serial.print(now.month(), DEC);
-Serial.print('/');
-Serial.print(now.day(), DEC);
-Serial.print("\t");
-Serial.print(now.hour(), DEC);
-Serial.print(':');
-Serial.print(now.minute(), DEC);
-Serial.print(':');
-Serial.print(now.second(), DEC);
-Serial.println();
-return String(now.day()) + "/" + String(now.month())+ "/" + String(now.year()) + "," + String(now.hour())+ ":" + String(now.minute()) + ":" + String(now.second());
+// String senorConx::readTime()
+// {
+// DateTime now = rtc.now();
+// Serial.print(now.year(), DEC);
+// Serial.print('/');
+// Serial.print(now.month(), DEC);
+// Serial.print('/');
+// Serial.print(now.day(), DEC);
+// Serial.print("\t");
+// Serial.print(now.hour(), DEC);
+// Serial.print(':');
+// Serial.print(now.minute(), DEC);
+// Serial.print(':');
+// Serial.print(now.second(), DEC);
+// Serial.println();
+// return String(now.day()) + "/" + String(now.month())+ "/" + String(now.year()) + "," + String(now.hour())+ ":" + String(now.minute()) + ":" + String(now.second());
  
-}
+// }
